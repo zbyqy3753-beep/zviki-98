@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoneyTracker | ניהול חובות ותזרים</title>
+    <title>MoneyTracker | Dark Mode</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,18 +20,23 @@
                     <p>חייבים לי</p>
                     <h2 id="total-debt">₪0.00</h2>
                 </div>
+                <div class="balance-card owed-card">
+                    <p>אני חייב</p>
+                    <h2 id="total-owed">₪0.00</h2>
+                </div>
             </div>
         </header>
 
         <section class="form-section">
             <form id="transaction-form">
-                <input type="text" id="description" placeholder="מה הפעולה? (למשל: פיצה, הלוואה ליוסי)" required>
-                <input type="number" id="amount" placeholder="כמה? (₪)" required>
+                <input type="text" id="description" placeholder="תיאור הפעולה..." required>
+                <input type="number" id="amount" placeholder="סכום (₪)" required>
                 <div class="type-toggle">
                     <select id="type">
                         <option value="expense">הוצאה 🔻</option>
                         <option value="income">הכנסה 🟢</option>
-                        <option value="debt">חוב (חייבים לי) ⏳</option>
+                        <option value="debt">חייבים לי (⏳)</option>
+                        <option value="owed">אני חייב (💸)</option>
                     </select>
                 </div>
                 <button type="submit" id="submit-btn">שמור תנועה</button>
@@ -40,9 +45,7 @@
 
         <section class="history-section">
             <h3>היסטוריית פעולות</h3>
-            <div id="transactions-list">
-                <!-- כאן יופיעו הפעולות דרך ה-JS -->
-            </div>
+            <div id="transactions-list"></div>
         </section>
     </div>
 
