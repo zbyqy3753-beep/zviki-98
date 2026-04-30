@@ -1,4 +1,3 @@
-/* הגדרות משתנים וצבעים */
 :root {
     --primary: #6366f1;
     --bg: #0f172a;
@@ -12,34 +11,20 @@
     --border: #334155;
 }
 
-/* הגדרות כלליות */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
     background-color: var(--bg);
     color: var(--text);
     margin: 0;
-    padding: 20px;
+    padding: 15px;
     direction: rtl;
     display: flex;
     justify-content: center;
 }
 
-.app-container {
-    width: 100%;
-    max-width: 600px;
-}
+.app-container { width: 100%; max-width: 600px; }
 
-h1, h3 {
-    text-align: center;
-    color: var(--text);
-}
-
-/* כרטיסיות היתרה למעלה */
-.balance-cards-container {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 12px;
-}
+.balance-cards-container { display: flex; gap: 10px; }
 
 .balance-card {
     flex: 1;
@@ -48,27 +33,11 @@ h1, h3 {
     border-radius: 12px;
     text-align: center;
     border: 1px solid var(--border);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
 }
 
-.balance-card:hover {
-    transform: translateY(-2px);
-}
+.balance-card p { margin: 0; color: #94a3b8; font-size: 0.85em; }
+.balance-card h2 { margin: 5px 0 0; font-size: 1.3em; color: var(--income); }
 
-.balance-card p {
-    margin: 0;
-    color: #94a3b8;
-    font-size: 0.9em;
-}
-
-.balance-card h2 {
-    margin: 8px 0 0;
-    font-size: 1.4em;
-    color: var(--income); /* ברירת מחדל לירוק */
-}
-
-/* צבעים ספציפיים לכרטיסיות */
 .savings-card { border-bottom: 4px solid var(--savings); }
 #total-savings { color: var(--savings); }
 
@@ -78,20 +47,33 @@ h1, h3 {
 .owed-card { border-bottom: 4px solid var(--owed); }
 #total-owed { color: var(--owed); }
 
-/* עיצוב הטופס */
+/* עיצוב קופות חיסכון */
+.savings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.savings-target-card {
+    background: var(--card-bg);
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--savings);
+    text-align: center;
+}
+
+.savings-target-card h4 { margin: 0; font-size: 0.85em; color: #94a3b8; }
+.savings-target-card p { margin: 5px 0 0; font-size: 1.1em; font-weight: bold; color: var(--savings); }
+
 .form-section {
     background: var(--card-bg);
     padding: 20px;
     border-radius: 16px;
     margin: 20px 0;
-    border: 1px solid var(--border);
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+form { display: flex; flex-direction: column; gap: 10px; }
 
 input, select {
     padding: 12px;
@@ -99,12 +81,6 @@ input, select {
     border: 1px solid var(--border);
     color: white;
     border-radius: 8px;
-    font-size: 1rem;
-    outline: none;
-}
-
-input:focus, select:focus {
-    border-color: var(--primary);
 }
 
 #submit-btn {
@@ -114,77 +90,36 @@ input:focus, select:focus {
     padding: 14px;
     border-radius: 8px;
     font-weight: bold;
-    font-size: 1rem;
     cursor: pointer;
-    transition: background 0.2s;
-}
-
-#submit-btn:hover {
-    background: #4f46e5;
-}
-
-/* רשימת היסטוריה */
-.history-section h3 {
-    margin-top: 30px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 10px;
 }
 
 .transaction-card {
     background: var(--card-bg);
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-right: 5px solid transparent;
-    border: 1px solid var(--border);
+    border-right: 4px solid transparent;
 }
 
-/* צבעי פסים בצד לפי סוג תנועה */
-.transaction-card.income { border-right: 5px solid var(--income); }
-.transaction-card.expense { border-right: 5px solid var(--expense); }
-.transaction-card.debt { border-right: 5px solid var(--debt); }
-.transaction-card.owed { border-right: 5px solid var(--owed); }
-.transaction-card.savings { border-right: 5px solid var(--savings); }
+.transaction-card.income { border-right-color: var(--income); }
+.transaction-card.expense { border-right-color: var(--expense); }
+.transaction-card.debt { border-right-color: var(--debt); }
+.transaction-card.owed { border-right-color: var(--owed); }
+.transaction-card.savings { border-right-color: var(--savings); }
 
-.transaction-info strong {
-    display: block;
-    font-size: 1.1em;
-    margin-bottom: 4px;
-}
-
-.paid-badge {
-    background: rgba(148, 163, 184, 0.2);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 0.75em;
-}
-
-/* כפתור "עדכן/שילמתי" בתוך כרטיסייה */
 .pay-btn {
-    margin-top: 8px;
     background: var(--primary);
     color: white;
     border: none;
-    padding: 5px 12px;
-    border-radius: 6px;
-    font-size: 0.85em;
+    padding: 4px 10px;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 0.8em;
 }
 
-.pay-btn:hover {
-    filter: brightness(1.1);
-}
-
-/* רספונסיביות לטלפונים */
 @media (max-width: 480px) {
-    .balance-cards-container {
-        flex-direction: column;
-    }
-    
-    .balance-card {
-        padding: 10px;
-    }
+    .balance-cards-container { flex-direction: column; }
 }
