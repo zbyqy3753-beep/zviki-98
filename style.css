@@ -1,132 +1,102 @@
 :root {
     --primary: #818cf8;
-    --bg: #0f172a;        /* רקע כהה מאוד */
-    --card-bg: #1e293b;   /* רקע לכרטיסיות */
-    --text: #f1f5f9;      /* טקסט לבן-אפרפר */
-    --income: #4ade80;    /* ירוק בהיר */
-    --expense: #fb7185;   /* אדום בהיר */
-    --debt: #facc15;      /* צהוב חוב */
+    --bg: #0f172a;
+    --card-bg: #1e293b;
+    --text: #f1f5f9;
+    --income: #4ade80;
+    --expense: #fb7185;
+    --debt: #facc15;
+    --owed: #a855f7; /* סגול לחוב שלי */
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     background-color: var(--bg);
     color: var(--text);
     margin: 0;
     display: flex;
     justify-content: center;
-    padding: 20px;
+    padding: 10px;
+    direction: rtl;
 }
 
-.app-container {
-    width: 100%;
-    max-width: 500px;
-}
+.app-container { width: 100%; max-width: 600px; }
 
-h1 { 
-    text-align: center; 
-    margin-bottom: 30px; 
-    color: #fff;
-}
-
-/* כרטיסיות יתרה */
 .balance-cards-container {
     display: flex;
-    gap: 15px;
-    margin-bottom: 25px;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .balance-card {
     flex: 1;
     background: var(--card-bg);
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 12px;
     text-align: center;
     border: 1px solid #334155;
 }
 
-.balance-card p { margin: 0; color: #94a3b8; font-size: 0.9em; }
-.balance-card h2 { margin: 5px 0 0; font-size: 1.5em; color: var(--income); }
+.balance-card p { margin: 0; color: #94a3b8; font-size: 0.8em; }
+.balance-card h2 { margin: 5px 0 0; font-size: 1.2em; color: var(--income); }
 
 .debt-card { border-bottom: 4px solid var(--debt); }
 #total-debt { color: var(--debt); }
 
-/* טופס */
+.owed-card { border-bottom: 4px solid var(--owed); }
+#total-owed { color: var(--owed); }
+
 .form-section {
     background: var(--card-bg);
     padding: 20px;
     border-radius: 16px;
-    border: 1px solid #334155;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
-form { display: flex; flex-direction: column; gap: 12px; }
+form { display: flex; flex-direction: column; gap: 10px; }
 
 input, select {
     padding: 12px;
-    border: 1px solid #334155;
-    border-radius: 8px;
-    font-size: 1em;
     background: #0f172a;
+    border: 1px solid #334155;
     color: white;
-}
-
-input::placeholder {
-    color: #64748b;
+    border-radius: 8px;
 }
 
 #submit-btn {
     background: var(--primary);
     color: white;
     border: none;
-    padding: 14px;
+    padding: 12px;
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-#submit-btn:hover {
-    background: #6366f1;
-}
-
-/* רשימת תנועות */
 .transaction-card {
     background: var(--card-bg);
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #334155;
+    border-left: 4px solid transparent;
 }
 
-.transaction-info strong { display: block; margin-bottom: 4px; color: #fff; }
-.date { font-size: 0.75em; color: #64748b; }
+.transaction-card.income { border-left-color: var(--income); }
+.transaction-card.expense { border-left-color: var(--expense); }
+.transaction-card.debt { border-left-color: var(--debt); }
+.transaction-card.owed { border-left-color: var(--owed); }
 
-.paid-badge {
-    background: #334155;
-    color: #94a3b8;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 0.8em;
-    margin-right: 5px;
-}
+.paid-badge { color: #94a3b8; font-size: 0.8em; margin-right: 5px; }
 
 .pay-btn {
-    background: var(--income);
-    color: #000;
+    background: var(--primary);
+    color: white;
     border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
     cursor: pointer;
-    font-size: 0.85em;
-    font-weight: bold;
-    margin-top: 5px;
-}
-
-.pay-btn:hover { 
-    background: #22c55e;
 }
