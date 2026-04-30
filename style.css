@@ -1,82 +1,132 @@
 :root {
-    --bg: #0f172a;
-    --card: #1e293b;
-    --text: #f8fafc;
-    --primary: #38bdf8;
-    --expense: #fb7185;
-    --income: #4ade80;
+    --primary: #818cf8;
+    --bg: #0f172a;        /* רקע כהה מאוד */
+    --card-bg: #1e293b;   /* רקע לכרטיסיות */
+    --text: #f1f5f9;      /* טקסט לבן-אפרפר */
+    --income: #4ade80;    /* ירוק בהיר */
+    --expense: #fb7185;   /* אדום בהיר */
+    --debt: #facc15;      /* צהוב חוב */
 }
 
 body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg);
     color: var(--text);
-    font-family: 'Segoe UI', system-ui, sans-serif;
+    margin: 0;
     display: flex;
     justify-content: center;
-    margin: 0;
     padding: 20px;
 }
 
 .app-container {
     width: 100%;
-    max-width: 450px;
+    max-width: 500px;
+}
+
+h1 { 
+    text-align: center; 
+    margin-bottom: 30px; 
+    color: #fff;
+}
+
+/* כרטיסיות יתרה */
+.balance-cards-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
 }
 
 .balance-card {
-    background: linear-gradient(135deg, #0ea5e9, #2563eb);
-    padding: 25px;
-    border-radius: 15px;
-    text-align: center;
-    margin-bottom: 25px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-}
-
-.balance-card h2 { font-size: 2.5rem; margin: 10px 0; }
-
-form {
-    background: var(--card);
+    flex: 1;
+    background: var(--card-bg);
     padding: 20px;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    border-radius: 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    border: 1px solid #334155;
 }
 
-input, select, button {
-    padding: 12px;
-    border-radius: 8px;
+.balance-card p { margin: 0; color: #94a3b8; font-size: 0.9em; }
+.balance-card h2 { margin: 5px 0 0; font-size: 1.5em; color: var(--income); }
+
+.debt-card { border-bottom: 4px solid var(--debt); }
+#total-debt { color: var(--debt); }
+
+/* טופס */
+.form-section {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 16px;
     border: 1px solid #334155;
+    margin-bottom: 25px;
+}
+
+form { display: flex; flex-direction: column; gap: 12px; }
+
+input, select {
+    padding: 12px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    font-size: 1em;
     background: #0f172a;
     color: white;
-    font-size: 1rem;
 }
 
-button {
+input::placeholder {
+    color: #64748b;
+}
+
+#submit-btn {
     background: var(--primary);
-    color: #000;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
-    border: none;
     transition: 0.3s;
 }
 
-button:hover { opacity: 0.8; }
+#submit-btn:hover {
+    background: #6366f1;
+}
 
+/* רשימת תנועות */
 .transaction-card {
-    background: var(--card);
-    margin-top: 10px;
+    background: var(--card-bg);
     padding: 15px;
-    border-radius: 10px;
+    border-radius: 12px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    animation: fadeIn 0.4s ease;
+    border: 1px solid #334155;
 }
 
-.amount.expense { color: var(--expense); }
-.amount.income { color: var(--income); }
+.transaction-info strong { display: block; margin-bottom: 4px; color: #fff; }
+.date { font-size: 0.75em; color: #64748b; }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+.paid-badge {
+    background: #334155;
+    color: #94a3b8;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    margin-right: 5px;
+}
+
+.pay-btn {
+    background: var(--income);
+    color: #000;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.pay-btn:hover { 
+    background: #22c55e;
 }
