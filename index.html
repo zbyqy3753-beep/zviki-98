@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoneyTracker Pro</title>
+    <title>MoneyTracker Pro | ניהול תקציב</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,11 +12,11 @@
             <h1>ניהול כסף וחסכונות 💰</h1>
             <div class="balance-cards-container">
                 <div class="balance-card">
-                    <p>יתרה נזילה</p>
+                    <p>יתרה נזילה (בכיס)</p>
                     <h2 id="total-balance">₪0</h2>
                 </div>
                 <div class="balance-card savings-card">
-                    <p>בחיסכון</p>
+                    <p>סך הכל חיסכון</p>
                     <h2 id="total-savings">₪0</h2>
                 </div>
             </div>
@@ -32,10 +32,16 @@
             </div>
         </header>
 
+        <!-- אזור קופות חיסכון נפרד -->
+        <section class="savings-section">
+            <h3>הקופות שלי 🏦</h3>
+            <div id="savings-targets-list" class="savings-grid"></div>
+        </section>
+
         <section class="form-section">
             <h3>הוספת תנועה</h3>
             <form id="transaction-form">
-                <input type="text" id="description" placeholder="תיאור (למשל: משכורת, חוב למשה...)" required>
+                <input type="text" id="description" placeholder="תיאור (למשל: מחשב חדש, משכורת...)" required>
                 <input type="number" id="amount" placeholder="סכום (₪)" required>
                 <select id="type">
                     <option value="income">הכנסה 🟢</option>
@@ -49,7 +55,7 @@
         </section>
 
         <section class="history-section">
-            <h3>היסטוריית פעולות</h3>
+            <h3>היסטוריית תנועות כללית</h3>
             <div id="transactions-list"></div>
         </section>
     </div>
