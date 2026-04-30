@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoneyTracker | המעקב שלי</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <h1>ניהול כסף אישי 💸</h1>
+            <div class="balance-card">
+                <p>יתרה כוללת</p>
+                <h2 id="total-balance">₪0.00</h2>
+            </div>
+        </header>
+
+        <section class="form-section">
+            <form id="transaction-form">
+                <input type="text" id="description" placeholder="מה קנית/קיבלת?" required>
+                <input type="number" id="amount" placeholder="כמה? (₪)" required>
+                <div class="type-toggle">
+                    <select id="type">
+                        <option value="expense">הוצאה 🔻</option>
+                        <option value="income">הכנסה 🟢</option>
+                    </select>
+                </div>
+                <button type="submit" id="submit-btn">שמור תנועה</button>
+            </form>
+        </section>
+
+        <section class="history-section">
+            <h3>היסטוריית פעולות</h3>
+            <div id="transactions-list">
+                </div>
+        </section>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
