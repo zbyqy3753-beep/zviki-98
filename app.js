@@ -13,7 +13,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// אלמנטים מה-HTML
 const form = document.getElementById('transaction-form');
 const list = document.getElementById('transactions-list');
 const balanceDisplay = document.getElementById('total-balance');
@@ -33,20 +32,20 @@ async function loadData() {
         const amount = Number(item.amount);
         const isPaid = item.status === 'paid';
         
-        // לוגיקת חישוב יתרה וחובות
+        // חישוב כספים
         if (item.type === 'income') {
             totalBalance += amount;
         } else if (item.type === 'expense') {
             totalBalance -= amount;
         } else if (item.type === 'debt') {
             if (isPaid) {
-                totalBalance += amount; // חוב ששולם נכנס ליתרה
+                totalBalance += amount;
             } else {
-                pendingDebt += amount; // חוב פתוח מופיע בכרטיסייה נפרדת
+                pendingDebt += amount;
             }
         }
 
-        // יצירת כרטיסיית תנועה לרשימה
+        // יצירת הכרטיסייה לרשימה
         const card = document.createElement('div');
         card.className = `transaction-card ${item.type}`;
         
@@ -67,12 +66,10 @@ async function loadData() {
         list.appendChild(card);
     });
 
-    // עדכון הכרטיסיות למעלה
     balanceDisplay.innerText = `₪${totalBalance.toLocaleString()}`;
     debtDisplay.innerText = `₪${pendingDebt.toLocaleString()}`;
 }
 
-// פונקציה גלובלית לכפתור "קיבלתי ת'כסף"
 window.markAsPaid = async (id) => {
     const docRef = doc(db, "transactions", id);
     await updateDoc(docRef, { status: 'paid' });
@@ -86,10 +83,10 @@ function getSymbol(type) {
 }
 
 function getAmountColor(type, isPaid) {
-    if (isPaid) return '#94a3b8'; // אפור לחוב שנסגר
-    if (type === 'income') return '#4ade80'; // ירוק
-    if (type === 'expense') return '#fb7185'; // אדום
-    return '#facc15'; // צהוב לחוב מחכה
+    if (isPaid) return '#94a3b8';
+    if (type === 'income') return '#4ade80';
+    if (type === 'expense') return '#fb7185';
+    return '#facc15';
 }
 
 form.addEventListener('submit', async (e) => {
