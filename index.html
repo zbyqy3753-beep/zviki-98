@@ -1,131 +1,51 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoneyTracker | ניהול חובות ותזרים</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBvf3RUpjeXMczTjjdlQ5ZCrJvrkaRMRNY",
-  authDomain: "zviki---mony.firebaseapp.com",
-  projectId: "zviki---mony",
-  storageBucket: "zviki---mony.firebasestorage.app",
-  messagingSenderId: "513651694765",
-  appId: "1:513651694765:web:5eb7995c416a75cc7d7a24"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-const form = document.getElementById('transaction-form');
-const list = document.getElementById('transactions-list');
-const balanceDisplay = document.getElementById('total-balance');
-const debtDisplay = document.createElement('div'); // אלמנט חדש להצגת חובות
-
-// הוספת תצוגת חובות מתחת ליתרה
-debtDisplay.id = "debt-summary";
-debtDisplay.style.fontSize = "1.1em";
-debtDisplay.style.marginTop = "5px";
-balanceDisplay.parentNode.insertBefore(debtDisplay, balanceDisplay.nextSibling);
-
-async function loadData() {
-    const q = query(collection(db, "transactions"), orderBy("created_at", "desc"));
-    const querySnapshot = await getDocs(q);
-    
-    list.innerHTML = '';
-    let totalBalance = 0;
-    let totalPendingDebt = 0;
-
-    querySnapshot.forEach((documentSnapshot) => {
-        const item = documentSnapshot.data();
-        const id = documentSnapshot.id;
-        const amount = Number(item.amount);
-        
-        // חישוב יתרה וחובות
-        if (item.type === 'income') {
-            totalBalance += amount;
-        } else if (item.type === 'expense') {
-            totalBalance -= amount;
-        } else if (item.type === 'debt') {
-            if (item.status === 'paid') {
-                totalBalance += amount; // החוב שולם - הכסף חזר לחשבון
-            } else {
-                totalPendingDebt += amount; // חוב שטרם שולם
-            }
-        }
-
-        // יצירת הכרטיסייה
-        const card = document.createElement('div');
-        card.className = `transaction-card ${item.type}`;
-        card.style.borderBottom = "1px solid #eee";
-        card.style.padding = "15px";
-        card.style.display = "flex";
-        card.style.justifyContent = "space-between";
-        card.style.alignItems = "center";
-
-        let statusBtn = '';
-        if (item.type === 'debt' && item.status !== 'paid') {
-            statusBtn = `<button onclick="markAsPaid('${id}')" style="background:#4ade80; border:none; color:white; padding:5px 10px; border-radius:5px; cursor:pointer;">סומן כצולם</button>`;
-        }
-
-        card.innerHTML = `
-            <div>
-                <strong>${item.description}</strong> 
-                <small>(${translateType(item.type)})</small>
-                ${item.status === 'paid' ? '<span style="color:gray; font-size:0.8em;"> [שולם ✅]</span>' : ''}
-            </div>
-            <div style="text-align:left;">
-                <div style="font-weight:bold; color:${getColor(item.type, item.status)}">
-                    ${getSymbol(item.type)}${amount.toLocaleString()} ₪
+    <div class="app-container">
+        <header>
+            <h1>ניהול כסף אישי 💸</h1>
+            <div class="balance-cards-container">
+                <div class="balance-card">
+                    <p>יתרה בחשבון</p>
+                    <h2 id="total-balance">₪0.00</h2>
                 </div>
-                ${statusBtn}
+                <div class="balance-card debt-card">
+                    <p>חייבים לי</p>
+                    <h2 id="total-debt">₪0.00</h2>
+                </div>
             </div>
-        `;
-        list.appendChild(card);
-    });
+        </header>
 
-    balanceDisplay.innerText = `יתרה בחשבון: ${totalBalance.toLocaleString()} ₪`;
-    debtDisplay.innerHTML = `<span style="color: #facc15;">חובות שחייבים לי: ${totalPendingDebt.toLocaleString()} ₪</span>`;
-}
+        <section class="form-section">
+            <form id="transaction-form">
+                <input type="text" id="description" placeholder="מה הפעולה? (למשל: פיצה, הלוואה ליוסי)" required>
+                <input type="number" id="amount" placeholder="כמה? (₪)" required>
+                <div class="type-toggle">
+                    <select id="type">
+                        <option value="expense">הוצאה 🔻</option>
+                        <option value="income">הכנסה 🟢</option>
+                        <option value="debt">חוב (חייבים לי) ⏳</option>
+                    </select>
+                </div>
+                <button type="submit" id="submit-btn">שמור תנועה</button>
+            </form>
+        </section>
 
-// פונקציה לעדכון חוב ששולם
-window.markAsPaid = async (id) => {
-    const docRef = doc(db, "transactions", id);
-    await updateDoc(docRef, { status: 'paid' });
-    loadData();
-};
+        <section class="history-section">
+            <h3>היסטוריית פעולות</h3>
+            <div id="transactions-list">
+                <!-- כאן יופיעו הפעולות דרך ה-JS -->
+            </div>
+        </section>
+    </div>
 
-function translateType(type) {
-    if (type === 'income') return 'הכנסה';
-    if (type === 'expense') return 'הוצאה';
-    return 'חוב';
-}
-
-function getSymbol(type) {
-    if (type === 'income') return '+';
-    if (type === 'expense') return '-';
-    return '⏳';
-}
-
-function getColor(type, status) {
-    if (status === 'paid') return '#4ade80';
-    if (type === 'income') return '#4ade80';
-    if (type === 'expense') return '#fb7185';
-    return '#facc15'; // צהוב לחוב מחכה
-}
-
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const description = document.getElementById('description').value;
-    const amount = document.getElementById('amount').value;
-    const type = document.getElementById('type').value;
-
-    await addDoc(collection(db, "transactions"), {
-        description,
-        amount: Number(amount),
-        type,
-        status: type === 'debt' ? 'pending' : 'completed',
-        created_at: serverTimestamp()
-    });
-
-    form.reset();
-    loadData();
-});
-
-loadData();
+    <script type="module" src="app.js"></script>
+</body>
+</html>
